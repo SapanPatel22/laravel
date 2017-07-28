@@ -1,0 +1,22 @@
+body {
+	background-color : #e8ece1;
+}
+
+.sign_in,form {
+	width: 300px;
+	margin: 100px auto;
+}
+
+button a {
+	text-decoration: none;
+	color:white;
+}
+
+.error {
+	color: red;
+}
+
+.error_symbol {
+	color:red;
+	margin-right: 10px;
+}

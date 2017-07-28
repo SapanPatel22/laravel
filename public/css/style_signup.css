@@ -1,0 +1,23 @@
+body {
+	background-color : #e8ece1;
+}
+
+button a {
+	text-decoration: none;
+	color:white;
+}
+
+.error {
+	color: red;
+}
+
+.error_symbol {
+	color:red;
+	margin-right: 10px;
+}
+
+#myform {
+	padding-top: 203px;
+	padding-left: 165px;
+
+}
