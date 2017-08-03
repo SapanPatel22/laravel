@@ -1,338 +1,189 @@
+@extends('master')
 
-@extends ('layout')
-aaaaaaaaaaa
-<!DOCTYPE html>
-<html>
-<head>
+@section('title')
 	<title>Signup</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-	<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
-	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
-	<link rel="stylesheet" href="css/style_signup.css" type="text/css">
+@endsection
 
-</head>
-<body>
-<div class="mdl-layout mdl-layout--fixed-header">
-	<header class="mdl-layout__header">
-		<div class="mdl-layout__header-row">
-			<span class="mdl-layout-title">Welcome</span>
-			<div class="mdl-layout-spacer"></div>
-			<nav class="mdl-navigation mdl-layout--large-screen-only">
-				<a class="mdl-navigation__link" href="signup.php">SignUp</a>
-				<a class="mdl-navigation__link" href="index.php">Login</a>
-			</nav>
-		</div>
-	</header>
-	<div class="mdl-layout__drawer">
-		<span class="mdl-layout-title">Title</span>
-		<nav class="mdl-navigation">
-			<a class="mdl-navigation__link" href="#">SignUp</a>
-			<a class="mdl-navigation__link" href="#">LOgin</a>
-		</nav>
-	</div>
-</div>
+@section('include_css_file')
+		<link rel="stylesheet" href="css/signup.css" type="text/css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+@endsection
+
+@section('form')
+
+
 <div class="container">
-	<div class="sign_in">
-		<form id="myform" name="registration" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype ="multipart/form-data" onsubmit="return validateForm(1)" autocomplete="off">
-		<div class="mdl-grid">
-			<div id="prefix-dropdown" class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label mdl-cell mdl-cell--10-col">
-				<span class="error_symbol">*</span>
-				<span>Prefix:</span>
-				<select class="mdl-selectfield__select" id="prefix" name="prefix" value="<?php ?>">
-					<option value="">Please select options</option>
-					<option value="Mr.">Mr.</option>
-					<option value="Mrs.">Mrs.</option>
-				</select>
-				<label class="mdl-selectfield__label" for="prefix"></label>
-				<span id="invalidprefix" class="error"><?php if (isset($prefixErr)) { echo $prefixErr;}?></span>
+	<div class="row">
+		<div class="col-md-12">
+			<section>      
+				<h1 class="entry-title"><span>Sign Up</span> </h1>
+				<hr>
+				{!! Form::open(['action' => 'SignupController@validateRequest', 'files' => true, 'id' => 'myform' ,'class' => 'form-horizontal','onsubmit' => 'return validateForm(1)', 'autocomplete' => 'off']) !!}
+
+				<div class="form-group">
+					{!! Html::decode(Form::label('fname', 'Full Name <span class="text-danger">*</span>', ['class' => 'control-label col-sm-3'])) !!}
+					
+
+					<div class="col-md-2 col-sm-9">
+						{!! Form::select('prefix', ['Mr.' => 'Mr.', 'Mrs.' => 'Mrs.'], null, ['placeholder' => 'Prefix', 'class' => 'form-control']) !!}
+						<span class="text-danger">{{ $errors->first('prefix') }}</span>
+					</div>
+
+					<div class="col-md-2 col-sm-9">
+						{!! Form::text('fname', '', ['class'=>'form-control', 'placeholder'=>'First Name' , 'autofocus'=>'autofocus']) !!}
+						<span class="text-danger">{{ $errors->first('fname') }}</span>
+					</div>
+
+					<div class="col-md-2 col-sm-9">
+						{!! Form::text('mname', '', ['class'=>'form-control', 'placeholder'=>'Middle Name' , 'autofocus'=>'autofocus']) !!}
+					</div>
+
+					<div class="col-md-2 col-sm-9">
+						{!! Form::text('lname', '', ['class'=>'form-control', 'placeholder'=>'Last Name' , 'autofocus'=>'autofocus']) !!}
+						<span class="text-danger">{{ $errors->first('lname') }}</span>
+					</div>
+
+				</div>
+
+			<div class="form-group">
+				{!!  Html::decode(Form::label('email', 'Email ID<span class="text-danger">*</span>', ['class' => 'control-label col-sm-3 '])) !!}
+				<div class="col-md-8 col-sm-9">
+					<div class="input-group">
+						<span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+						{!! Form::text('email', '', ['class'=>'form-control', 'placeholder'=>'Email'], [ 'autofocus'=>'autofocus']) !!}
+					</div>
+					<span class="text-danger">{{ $errors->first('email') }}</span>
+				</div>
 			</div>
-			<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--10-col">
-				<input class="mdl-textfield__input" type="text" id="fname" name="fname" value="<?php echo $fname;?>">
-				<span for="fname" class="mdl-tooltip">First Name</span>
-				<label class="mdl-textfield__label" for="fname">
-					<span class="error_symbol">*</span>First Name
-				</label>
-			</div>
-				<span id="invalidfname" class="error"><?php if (isset($fnameErr)) { echo $fnameErr;}?></span>
 			
-			<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--10-col">
-				<input class="mdl-textfield__input" type="text" id="mname" name="mname" value="<?php echo $mname;?>">
-					<span for="mname" class="mdl-tooltip">Middle Name</span>
-					<label class="mdl-textfield__label" for="mname">Middle Name</label>
+			<div class="form-group">
+			{!!  Html::decode(Form::label('pass', 'Set Password<span class="text-danger">*</span>', ['class' => 'control-label col-sm-3 '])) !!}
+				<div class="col-md-5 col-sm-8">
+					<div class="input-group">
+						<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+						{!! Form::password('pass', ['class' => 'form-control', 'placeholder' => 'Password must be between 5-15 characters']) !!}
+				    </div>
+				    <span class="text-danger">{{ $errors->first('pass') }}</span>
+				</div>
 			</div>
-			<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--10-col">
-				<input class="mdl-textfield__input" type="text" id="lname" name="lname" value="<?php echo $lname;?>">
-					<span for="lname" class="mdl-tooltip">Last Name</span>
-					<label class="mdl-textfield__label" for="lname">
-						<span class="error_symbol">*</span>Last Name
-					</label>
+
+			<!-- <div class="form-group">
+			  <label class="control-label col-sm-3">Date of Birth <span class="text-danger">*</span></label>
+			  <div class="col-xs-8">
+				<div class="form-inline">
+				  <div class="form-group">
+					<select name="dd" class="form-control">
+					  <option value="">Date</option>
+					  <option value="1" >1 </option><option value="2" >2 </option><option value="3" >3 </option><option value="4" >4 </option><option value="5" >5 </option><option value="6" >6 </option><option value="7" >7 </option><option value="8" >8 </option><option value="9" >9 </option><option value="10" >10 </option><option value="11" >11 </option><option value="12" >12 </option><option value="13" >13 </option><option value="14" >14 </option><option value="15" >15 </option><option value="16" >16 </option><option value="17" >17 </option><option value="18" >18 </option><option value="19" >19 </option><option value="20" >20 </option><option value="21" >21 </option><option value="22" >22 </option><option value="23" >23 </option><option value="24" >24 </option><option value="25" >25 </option><option value="26" >26 </option><option value="27" >27 </option><option value="28" >28 </option><option value="29" >29 </option><option value="30" >30 </option><option value="31" >31 </option>                </select>
+				  </div>
+				  <div class="form-group">
+					<select name="mm" class="form-control">
+					  <option value="">Month</option>
+					  <option value="1">Jan</option><option value="2">Feb</option><option value="3">Mar</option><option value="4">Apr</option><option value="5">May</option><option value="6">Jun</option><option value="7">Jul</option><option value="8">Aug</option><option value="9">Sep</option><option value="10">Oct</option><option value="11">Nov</option><option value="12">Dec</option>                </select>
+				  </div>
+				  <div class="form-group" >
+					<select name="yyyy" class="form-control">
+					  <option value="0">Year</option>
+					  <option value="1955" >1955 </option><option value="1956" >1956 </option><option value="1957" >1957 </option><option value="1958" >1958 </option><option value="1959" >1959 </option><option value="1960" >1960 </option><option value="1961" >1961 </option><option value="1962" >1962 </option><option value="1963" >1963 </option><option value="1964" >1964 </option><option value="1965" >1965 </option><option value="1966" >1966 </option><option value="1967" >1967 </option><option value="1968" >1968 </option><option value="1969" >1969 </option><option value="1970" >1970 </option><option value="1971" >1971 </option><option value="1972" >1972 </option><option value="1973" >1973 </option><option value="1974" >1974 </option><option value="1975" >1975 </option><option value="1976" >1976 </option><option value="1977" >1977 </option><option value="1978" >1978 </option><option value="1979" >1979 </option><option value="1980" >1980 </option><option value="1981" >1981 </option><option value="1982" >1982 </option><option value="1983" >1983 </option><option value="1984" >1984 </option><option value="1985" >1985 </option><option value="1986" >1986 </option><option value="1987" >1987 </option><option value="1988" >1988 </option><option value="1989" >1989 </option><option value="1990" >1990 </option><option value="1991" >1991 </option><option value="1992" >1992 </option><option value="1993" >1993 </option><option value="1994" >1994 </option><option value="1995" >1995 </option><option value="1996" >1996 </option><option value="1997" >1997 </option><option value="1998" >1998 </option><option value="1999" >1999 </option><option value="2000" >2000 </option><option value="2001" >2001 </option><option value="2002" >2002 </option><option value="2003" >2003 </option><option value="2004" >2004 </option><option value="2005" >2005 </option><option value="2006" >2006 </option>                </select>
+				  </div>
+				</div>
+			  </div>
 			</div>
-			<span id="invalidlname" class="error"><?php if(isset($lnameErr)) { echo $lnameErr; }?></span>
+			<div class="form-group">
+			  <label class="control-label col-sm-3">Gender <span class="text-danger">*</span></label>
+			  <div class="col-md-8 col-sm-9">
+				<label>
+				<input name="gender" type="radio" value="Male" checked>
+				Male </label>
+				   
+				<label>
+				<input name="gender" type="radio" value="Female" >
+				Female </label>
+			  </div>
+			</div>
+			<div class="form-group">
+			  <label class="control-label col-sm-3">Contact No. <span class="text-danger">*</span></label>
+			  <div class="col-md-5 col-sm-8">
+				<div class="input-group">
+				  <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+				<input type="text" class="form-control" name="contactnum" id="contactnum" placeholder="Enter your Primary contact no." value="">
+				</div>
+			  </div>
+			</div>
+			<div class="form-group">
+			  <label class="control-label col-sm-3">Alternate No. <br>
+			  <small>(if any)</small></label>
+			  <div class="col-md-5 col-sm-8">
+				<input type="text" class="form-control" name="contactnum2" id="contactnum2" placeholder="Any other or Landline no (if any)" value="">
+			  </div>
+			</div>
+			<div class="form-group">
+			  <label class="control-label col-sm-3">Profile Photo <br>
+			  <small>(optional)</small></label>
+			  <div class="col-md-5 col-sm-8">
+				<div class="input-group"> <span class="input-group-addon" id="file_upload"><i class="glyphicon glyphicon-upload"></i></span>
+				  <input type="file" name="file_nm" id="file_nm" class="form-control upload" placeholder="" aria-describedby="file_upload">
+				</div>
+			  </div>
+			</div>
+			<div class="form-group">
+			  <label class="control-label col-sm-3">Security Code </label>
+			  <div class="col-md-5 col-sm-8">
+				<div >
+					
+					<input type="text" name="captcha" id="captcha" class="form-control label-warning"  />                
+				  </div>
+			  </div>
+			</div>
+			<div class="form-group">
+			  <div class="col-xs-offset-3 col-md-8 col-sm-9"><span class="text-muted"><span class="label label-danger">Note:-</span> By clicking Sign Up, you agree to our <a href="#">Terms</a> and that you have read our <a href="#">Policy</a>, including our <a href="#">Cookie Use</a>.</span> </div>
+			</div> -->
+			<div class="form-group">
+			  <div class="col-xs-offset-3 col-xs-10 col-md-8">
+			  {!! Form::submit('Signup', ['class' => 'btn btn-lg btn-primary btn-block']) !!}
+				
+			  </div>
+			</div> 
+		  {!! Form::close() !!}
 		</div>
-		<div class="mdl-grid">
-			<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--10-col">
-				<input class="mdl-textfield__input" type="text" id="email" name="email"  value="<?php echo $email;?>">
-				<span for="email" class="mdl-tooltip">Enter Email</span>
-				<label class="mdl-textfield__label" for="email">
-					<span class="error_symbol">*</span>Email/UserName
-				</label>
-			</div>
-			<span id="invalidemail" class="error"><?php if (isset($emailErr)) { echo $emailErr;}?></span>
-		</div>
-		<div class="mdl-grid">
-			<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--10-col">
-				<input class="mdl-textfield__input" type="password" id="pass" name="pass" value="<?php echo $pass;?>">
-				<span for="pass" class="mdl-tooltip">Enter Password</span>
-				<label class="mdl-textfield__label" for="pass">
-					<span class="error_symbol">*</span>Password
-				</label>
-			</div>
-			<span id="invalidpass" class="error"><?php if (isset($passErr)) { echo $passErr;}?></span>
-		</div>
-		<div class="mdl-grid">
-			<div class="mdl-cell mdl-cell--10-col">
-				<span class="error_symbol">*</span>
-				<span>Gender:</span>
-				<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="male">
-				<input type="radio" id="male" class="mdl-radio__button" name="gender" value="M" checked>
-					<span class="mdl-radio__label">Male</span>
-				</label>
-				<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="female">
-					<input type="radio" id="female" class="mdl-radio__button" name="gender" value="F">
-					<span class="mdl-radio__label">Female</span>
-				</label>
-				<span id="invalid-gender" class="error"><?php if (isset($genderErr)) { echo $genderErr;}?></span>
-			</div>
-			<div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label mdl-cell mdl-cell--10-col">
-				<span class="error_symbol">*</span>
-				<span>Marital Status:</span>
-				<select class="mdl-selectfield__select" id="marital-status" name="marital-status" value="<?php echo $maritalStatus;?>">
-					<option selected value="">Please select options</option>
-					<option value="Married">Married</option>
-					<option value="UnMarried">UnMarried</option>
-					<label class="mdl-selectfield__label" for="marital-status">Marital Status</label>
-				</select>
-			</div>
-			 <span id="invalid-marital" class="error"><?php if (isset($maritalStatusErr)) { echo $maritalStatusErr;}?></span>
-		</div>
-		<div class="mdl-grid">
-			<div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label mdl-cell mdl-cell--10-col">
-				<span class="error_symbol">*</span>
-				<span>Company Name:</span>
-				<select class="mdl-selectfield__select" id="company-name" name="company-name" value="<?php echo $company;?>">
-					<option value="">Please select options</option>
-					<option value="1">Mindfire</option>
-					<option value="2">Date the ramp</option>
-				</select>
-				<label class="mdl-selectfield__label" for="company-name"></label>
-			</div>
-			<span id="invalid-company-name" class="error"><?php if (isset($companyNameErr)) { echo $companyNameErr;}?></span>
-			<div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label mdl-cell mdl-cell--10-col">
-				<span class="error_symbol">*</span>
-				<span>Designation:</span>
-				<select class="mdl-selectfield__select" id="designation-name" name="designation-name">
-					<option value="">Please select options</option>
-					<option value="1">Software Devloper</option>
-					<option value="2">Software Testing</option>
-				</select>
-				<label class="mdl-selectfield__label" for="designation-name"></label>
-			</div>
-			<span id="invalid-designation-name" class="error"><?php if (isset($designationNameErr)) { echo $designationNameErr;}?></span>
-		</div>
-		<div class="mdl-grid">
-			<p>Official Address:</p>
-			<div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label mdl-cell mdl-cell--12-col">
-				<span class="error_symbol">*</span>
-				<span>Country:</span>
-				<select class="mdl-selectfield__select" id="office-country" name="office-country">
-					<option value="">Please select options</option>
-					<option value="1">India</option>
-				</select>
-				<label class="mdl-selectfield__label" for="office-country"></label>
-			</div>
-			 <span id="invalid-office-country" class="error"><?php if (isset($officeCountryErr)) { echo $officeCountryErr;}?></span>
-		</div>
-		<div class="mdl-grid">
-			<div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label mdl-cell mdl-cell--12-col">
-				<span class="error_symbol">*</span>
-				<span>State:</span>
-				<select class="mdl-selectfield__select" id="office-state" name="office-state">
-					<option value="">Please select options</option>
-					<option value="1">Odisha</option>
-				</select>
-				<label class="mdl-selectfield__label" for="office-state"></label>
-			</div>
-			<span id="invalid-office-state" class="error"><?php if (isset($officeStateErr)) { echo $officeStateErr;}?></span>
-			</div>
-			<div class="mdl-grid">
-				<div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label mdl-cell mdl-cell--12-col">
-				 <span class="error_symbol">*</span>
-				 <span>City:</span>
-					<select class="mdl-selectfield__select" id="office-city" name="office-city">
-						<option value="">Please select options</option>
-						<option value="1">Rourkela</option>
-						<option value="2">Bhubaneswar</option>
-					</select>
-					<label class="mdl-selectfield__label" for="office-city"></label>
-				</div>
-				 <span id="invalid-office-city" class="error"><?php if (isset($officeCityErr)) { echo $officeCityErr;}?></span>
-			</div>
-			<div class="mdl-grid">
-				<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--10-col">
-					<input class="mdl-textfield__input" type="text" id="office-street" name="office-street">
-					<span for="street" class="mdl-tooltip">Enter Street</span>
-					<label class="mdl-textfield__label" for="office-street">
-						<span class="error_symbol">*</span>Street
-					</label>
-				</div>
-				<span id="invalid-office-street" class="error"><?php if (isset($officeStreetErr)) { echo $officeStreetErr;}?></span>
-			</div>
-			<div class="mdl-grid">
-				<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--10-col">
-					<input class="mdl-textfield__input" type="text" id="office-zip" name="office-zip">
-					<span for="office-zip" class="mdl-tooltip">Enter zip</span>
-					<label class="mdl-textfield__label" for="office-zip">
-						<span class="error_symbol">*</span>Zip
-					</label>
-				</div>
-				<span id="invalid-office-zip" class="error"><?php if (isset($officeZipErr)) { echo $officeZipErr;}?></span>
-			</div>
-			<div class="mdl-grid">
-				<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--10-col">
-					<input class="mdl-textfield__input" type="text" id="office-phone" name="office-phone" placeholder="eg: 1223456789">
-					<span for="street" class="mdl-tooltip">Enter Phone Number</span>
-					<label class="mdl-textfield__label" for="office-phone">
-						<span class="error_symbol">*</span>Official Phone Number
-					</label>
-				</div>
-				<span id="invalid-office-phone" class="error"><?php if (isset($officePhoneErr)) { echo $officePhoneErr;}?></span>
-			</div>
-			<div class="mdl-grid">
-				<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--10-col">
-					<input class="mdl-textfield__input" type="text" id="office-fax" name="office-fax" value="">
-					<span for="official-fax" class="mdl-tooltip">Enter Fax Number</span>
-					<label class="mdl-textfield__label" for="office-fax">
-						Official Fax Number
-					</label>
-				</div>
-				<span id="invalid-office-fax" class="error"><?php if (isset($officeFaxErr)) { echo $officeFaxErr;}?></span>
-			</div>
-			<div class="mdl-grid">
-				<p>Home Address:</p>
-				<div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label mdl-cell mdl-cell--12-col">
-					<span class="error_symbol">*</span>
-					<span>Country:</span>
-					<select class="mdl-selectfield__select" id="home-country" name="home-country">
-						<option value="">Please select options</option>
-						<option value="1">India</option>
-					</select>
-					<label class="mdl-selectfield__label" for="home-country"></label>
-				</div>
-				 <span id="invalid-home-country" class="error"><?php if (isset($homeCountryErr)) { echo $homeCountryErr;}?></span>
-			</div>
-			<div class="mdl-grid">
-				<div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label mdl-cell mdl-cell--12-col">
-					<span class="error_symbol">*</span>
-					<span>State:</span>
-					<select class="mdl-selectfield__select" id="home-state" name="home-state">
-						<option value="">Please select options</option>
-						<option value="1">Odisha</option>
-					</select>
-					<label class="mdl-selectfield__label" for="home-state"></label>
-				</div>
-				<span id="invalid-home-state" class="error"><?php if (isset($homeStateErr)) { echo $homeStateErr;}?></span>
-			</div>
-			<div class="mdl-grid">
-				<div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label mdl-cell mdl-cell--12-col">
-				 <span class="error_symbol">*</span>
-				 <span>City:</span>
-						<select class="mdl-selectfield__select" id="home-city" name="home-city">
-							<option value="">Please select options</option>
-							<option value="1">Rourkela</option>
-							<option value="2">Bhubaneswar</option>
-						</select>
-						<label class="mdl-selectfield__label" for="home-city"></label>
-				</div>
-				<span id="invalid-home-city" class="error"><?php if (isset($homeCityErr)) { echo $homeCityErr;}?></span>
-			</div>
-			<div class="mdl-grid">
-				<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--10-col">
-					<input class="mdl-textfield__input" type="text" id="home-street" name="home-street" value="">
-					<span for="me-hostreet" class="mdl-tooltip">Enter Street</span>
-					<label class="mdl-textfield__label" for="home-street">
-						<span class="error_symbol">*</span>Street
-				</label>
-			</div>
-			<span id="invalid-home-street" class="error"><?php if (isset($homeStreetErr)) { echo $homeStreetErr;}?></span>
-			</div>
-			<div class="mdl-grid">
-				<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--10-col">
-					<input class="mdl-textfield__input" type="text" id="home-zip" name="home-zip">
-					<span for="home-zip" class="mdl-tooltip">Enter zip</span>
-					<label class="mdl-textfield__label" for="home-zip">
-						<span class="error_symbol">*</span>Zip
-					</label>
-				</div>
-				<span id="invalid-home-zip" class="error"><?php if (isset($homeZipErr)) { echo $homeZipErr;}?></span>
-			</div>
-			<div class="mdl-grid">
-				<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--10-col">
-					<input class="mdl-textfield__input" type="text" id="home-phone" name="home-phone"placeholder="eg: 1223456789" value="">
-					<span for="home-phone" class="mdl-tooltip">Enter Phone Number</span>
-					<label class="mdl-textfield__label" for="home-phone">
-						<span class="error_symbol">*</span>Home Phone Number
-					</label>
-				</div>
-				<span id="invalid-home-phone" class="error"><?php if (isset($homePhoneErr)) { echo $homePhoneErr;}?></span>
-			</div>
-			<div class="mdl-grid">
-				<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--10-col">
-					<input class="mdl-textfield__input" type="text" id="home-fax" name="home-fax" value="">
-					<span for="home-fax" class="mdl-tooltip">Enter Fax Number</span>
-					<label class="mdl-textfield__label" for="home-fax">
-					Home Fax Number
-				</label>
-			</div>
-				<span id="invalid-home-fax" class="error"><?php if(isset($homeFaxErr)) { echo $homeFaxErr;}?></span>
-			</div>
-			<div class="mdl-grid">
-				<div class="mdl-textfield mdl-js-textfield mdl-cell--10-col">
-					<textarea class="mdl-textfield__input" type="text" rows="1" maxrows="6" id="extra-note" name="extra-note"></textarea>
-					<label class="mdl-textfield__label" for="extra-note">Extra-Note</label>
-				</div>
-			</div>
-			<div class="mdl-grid">
-				<span>Preferred Communication:</span>
-				<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="call">
-					<input type="checkbox" id="call" class="mdl-checkbox__input" checked>
-					<span class="mdl-checkbox__label">Call</span>
-				</label>
-				<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"  for="sms">
-					<input type="checkbox" id="sms" class="mdl-checkbox__input">
-					<span class="mdl-checkbox__label">SMS</span>
-				</label>
-			</div>
-			<span class="error_symbol">*</span>Select image to upload:
-			<input id="fileToUpload" type="file" name="fileToUpload" value="<?php echo $pass;?>" onchange="previewFile()">
-			<img src="" height="100" id="blah">
-			<div>
-				<p id="fileErr" class="error "><?php echo $success;?><?php if (isset($validate['validate'])) { echo $validate['validate'];} ?></p>
-			</div>
-			<p>
-				<input id="submit" type="submit" name="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"></input>
-				<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
-					<a  href="index.php">Login</a>
-				</button>
-			</p>
-		</form>
 	</div>
 </div>
-<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="js/validation_signup.js"></script>
-<script src="js/validation_common.js"></script>
-</body>
-</html>
+@endsection
+
+@section('modal')
+ <div class="sidebar-collapse" style="" id="sidebar-collapse">
+     <a href="#" id="show" class="sidebar-collapse-icon with-animation" style="visibility: hidden">
+         Click               
+         <i class="entypo-menu"></i>
+     </a>
+ </div>
+
+ <div id="success-login" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        <p>You have successfully created an account</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default">
+        <a href="{{ route('login_form') }}">Login</a></button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script type="text/javascript">
+$( document ).ready(function() {
+	@if(isset($employeeInsertStatus) &&  true == $employeeInsertStatus )
+		$("#success-login").modal();
+	@endif
+});
+</script>
+@endsection

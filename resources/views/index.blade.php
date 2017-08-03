@@ -1,5 +1,8 @@
 @extends ('layout')
 
+	@section('title')
+		<title>Login</title>
+	@endsection
 	@section('include_css_file')
 		<link rel="stylesheet" href="css/style.css" type="text/css">
 	@endsection
@@ -17,7 +20,7 @@
 				<span id="invalidemail" class="error">{{ $errors->first('email') }}
 				@if (isset($emailErr))
 					{{ $emailErr }}
-				@endif					
+				@endif
 				</span>
 
 				<br>
