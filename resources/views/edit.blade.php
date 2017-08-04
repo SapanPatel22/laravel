@@ -10,9 +10,12 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 @endsection
 
+@section('usersProfile')
+ <a class="navbar-brand" href="{{ route('dashboard') }}">Dashboard</a>
+ <a class="navbar-brand" href="{{ route('users_profile') }}">Users profile</a>
+@endsection
+
 @section('form')
-
-
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
@@ -66,8 +69,8 @@
 			</div>
 			
 			<div class="form-group">
-			  	<div class="col-xs-offset-3 col-xs-10 col-md-8">
-			  	{!! Form::submit('Save Changes', ['class' => 'btn btn-lg btn-primary btn-block']) !!}
+				<div class="col-xs-offset-3 col-xs-10 col-md-8">
+				{!! Form::submit('Save Changes', ['class' => 'btn btn-lg btn-primary btn-block']) !!}
 				</div>
 			</div> 
 		  {!! Form::close() !!}

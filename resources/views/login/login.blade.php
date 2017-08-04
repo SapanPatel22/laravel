@@ -8,6 +8,10 @@
 		<link rel="stylesheet" href="css/login.css" type="text/css">
 @endsection
 
+@section('signup')
+	<li><a href="{{ route('signup_form') }}">SignUp</a></li>
+@endsection
+
 @section('form')
 	<div class="container">
 		<div class="row">
