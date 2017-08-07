@@ -15,39 +15,41 @@
 		<div class="col-md-12">
 			<div class="flash-message">
 				@foreach (['danger', 'warning', 'success', 'info'] as $msg)
-					@if(Session::has('alert-' . $msg))
+					@if (Session::has('alert-' . $msg))
 						<p class="alert alert-{{ $msg }}">{{ Session::get('alert-' . $msg) }} <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></p>
 					@endif
 				@endforeach
 			</div>
 			<div>
-				<h3></h3>
-				<table class="table table-bordered table-striped">
-					<tr>
-						<th>No.</th>
-						<th>First Name</th>
-						<th>Middle Name</th>
-						<th>Last Name</th>
-						<th>Email Address</th>
-						<th>Edit</th>
-						<th>Delete</th>
-					</tr>
-					@foreach($allUser as $user)
-					<tr>
-						<th>{{ $loop->iteration }}</th>
-						<th>{{ $user->first_name }}</th>
-						<th>{{ $user->middle_name }}</th>
-						<th>{{ $user->last_name }}</th>
-						<th>{{ $user->email }}</th>
-						<th>
-							<button type="button" class="btn btn-info" data-dismiss="modal">
-								<a href="{{ route('edit_user', ['user_id' => $user->id]) }}">Edit</a>
-							</button>
-						</th>
-						<th>{{ Form::button('Delete', array('class' => 'btn btn-danger', 'data-toggle' => 'modal', 'data-target' => '#confirm-del'.$user->id)) }}</th>
-					<tr>
-					@endforeach
-				</table>
+				<h3>Details</h3>
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+						<tr>
+							<th>No.</th>
+							<th>First Name</th>
+							<th>Middle Name</th>
+							<th>Last Name</th>
+							<th>Email Address</th>
+							<th>Edit</th>
+							<th>Delete</th>
+						</tr>
+						@foreach($allUser as $user)
+						<tr>
+							<th>{{ $loop->iteration }}</th>
+							<th>{{ $user->first_name }}</th>
+							<th>{{ $user->middle_name }}</th>
+							<th>{{ $user->last_name }}</th>
+							<th>{{ $user->email }}</th>
+							<th>
+								<button type="button" class="btn btn-info" data-dismiss="modal">
+									<a href="{{ route('edit_user', ['user_id' => $user->id]) }}">Edit</a>
+								</button>
+							</th>
+							<th>{{ Form::button('Delete', array('class' => 'btn btn-danger', 'data-toggle' => 'modal', 'data-target' => '#confirm-del'.$user->id)) }}</th>
+						</tr>
+						@endforeach
+					</table>
+				</div>
 			</div>
 		</div>
 			@foreach($allUser as $user)
@@ -59,7 +61,7 @@
 								<h4 class="modal-title">Please Confirm</h4>
 							</div>
 							<div class="modal-body">
-							<p>Are you sure to delete the user details.</p>
+								<p>Are you sure to delete the user details.</p>
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -71,6 +73,7 @@
 					</div>
 				</div>
 			@endforeach
+		</div>
 	</div>
 </div>
 @endsection

@@ -14,10 +14,10 @@ class AlterEmployeeAddForeignKeys extends Migration
     public function up()
     {
         Schema::table('employee', function (Blueprint $table) {
-            $table->integer('fk_company_id')->unsigned();
+            $table->integer('fk_company_id')->nullable()->unsigned();
             $table->foreign('fk_company_id')->references('id')->on('company');
 
-            $table->integer('fk_role_id')->unsigned();
+            $table->integer('fk_role_id')->nullable()->unsigned();
             $table->foreign('fk_role_id')->references('id')->on('role');
         });
     }

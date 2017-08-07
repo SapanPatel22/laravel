@@ -15,7 +15,7 @@ class AlterStateAddForeignKeys extends Migration
     {
         Schema::table('state', function (Blueprint $table) {
             $table->integer('fk_country_id')->unsigned();
-            $table->foreign('fk_country_id')->references('id')->on('company');
+            $table->foreign('fk_country_id')->references('id')->on('country');
         });
     }
 

@@ -5,15 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Employees;
 
-class SignupController extends Controller
-{
-     public function index()
-    {
-        return view('signup.signup')->with('route', route('login_form'))->with('route_name', 'Login');
+class SignupController extends Controller {
+    
+    public function index(Request $request) {
+        
+        return view('signup.signup')->with('route', route('login_form'))->with('route_name', 'Login');;
     }
 
-    public function validateRequest(Request $request)
-    {
+    public function validateRequest(Request $request) {
+
         $messages = [
             'prefix.required' => '* Prefix is required',
             'fname.required' => '* First name is required',
@@ -69,15 +69,14 @@ class SignupController extends Controller
             // 'home-phone' => 'required|regex:/[0-9]{10}/',
             // 'fileToUpload' => 'required'
         ];
+
         $this->validate($request, $rules, $messages);
-        $employeeInsertStatus = Employees::saveFormData([$request->input()]);
-        if($employeeInsertStatus) {
-            // return view('signup.signup', [ 'status' => $employeeInsertStatus] );
-            return view('signup.signup',compact('employeeInsertStatus'))->with('route', 'login_form')->with('route_name', 'Login');
-            // return view('signup.signup')->with('employeeInsertStatus',$employeeInsertStatus);
+        $employeeInsertStatus = Employees::saveFormData($request->input());
+
+        if ($employeeInsertStatus) {
+            return view('signup.signup', compact('employeeInsertStatus'))->with('route', route('login_form'))->with('route_name', 'login');
         } else {
-            return false;
+            return view('signup.signup')->with('route', route('login_form'))->with('route_name', 'login');
         }
-        // address::saveFormData($request->input());
     }
 }

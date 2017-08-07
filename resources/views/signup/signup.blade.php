@@ -13,14 +13,14 @@
 @section('signup')
 	<li><a href="{{ route('signup_form') }}">SignUp</a></li>
 @endsection
+
 @section('form')
 <div class="container">
 	<div class="row">
-		<div class="col-md-12">
-			<section>      
+		<div class="col-sm-6 col-md-12">    
 				<h1 class="entry-title"><span>Sign Up</span> </h1>
 				<hr>
-				{!! Form::open(['action' => 'SignupController@validateRequest', 'files' => true, 'id' => 'myform' ,'class' => 'form-horizontal','onsubmit' => 'return validateForm(1)', 'autocomplete' => 'off']) !!}
+				{!! Form::open(['action' => 'SignupController@validateRequest', 'files' => true, 'id' => 'myform' ,'class' => 'form-horizontal','onsubmit' => 'return validateForm(1)', 'autocomplete' => 'on']) !!}
 
 				<div class="form-group">
 					{!! Html::decode(Form::label('fname', 'Full Name <span class="text-danger">*</span>', ['class' => 'control-label col-sm-3'])) !!}

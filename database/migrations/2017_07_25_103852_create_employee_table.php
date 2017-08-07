@@ -23,9 +23,9 @@ class CreateEmployeeTable extends Migration
             $table->enum('gender', ['M', 'F']);
             $table->string('email', 50);
             $table->string('password', 255);
-            $table->string('marital_status', 20);
-            $table->string('photo_path', 255);
-            $table->text('extra_note');
+            $table->string('marital_status', 20)->nullable();
+            $table->string('photo_path', 255)->nullable();
+            $table->text('extra_note')->nullable();
             $table->string('dob', 10)->nullable();
             $table->integer('stack_id')->nullable()->unsigned();
 

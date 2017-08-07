@@ -20,6 +20,6 @@ class DashboardController extends Controller
 	public function logout() {
 		Auth::logout();
 
-		return Redirect::route('login_form');
+		return Redirect::route('dashboard');
 	}
 }

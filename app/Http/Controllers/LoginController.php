@@ -7,13 +7,16 @@ use Illuminate\Support\Facades\Input;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-// use Illuminate\Support\Facades\Redirect;
 use App\Employees;
 use DB;
+use Session;
 
 class LoginController extends Controller {
 
 	 public function index() {
+	 	if(Auth::check()){
+			return redirect('/dashboard');
+		}
 		return view('login.login')->with('route', route('login_form'))->with('route_name', 'Login');
 	}
 	
@@ -39,9 +42,14 @@ class LoginController extends Controller {
 	}
 
 	public function login(Request $request) {
+		$remember = $request['remember-me'];
+		$remember_data = false;
+		if ($remember == 1) {
+			$remember_data = true;
+		}
 		$employeeInsertStatus = Employees::validateUser($request);
 		if($employeeInsertStatus) {
-			if (Auth::attempt(['email' => $request['email'], 'password' => $request['pass']])) {
+			if (Auth::attempt(['email' => $request['email'], 'password' => $request['pass']], $remember_data)) {
 				return true;
 				
 			} else {

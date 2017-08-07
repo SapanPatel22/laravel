@@ -27,7 +27,7 @@
 				</div>
 					<img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120"
 						alt="">
-					{!! Form::open(['action' => 'LoginController@validateUserEmail', 'files' => true, 'id' => 'myform' ,'class' => 'form-signin', 'onsubmit' => 'return validateForm(0)']) !!}
+					{!! Form::open(['route' => 'validate_User_Email', 'files' => true, 'id' => 'myform' ,'class' => 'form-signin', 'onsubmit' => 'return validateForm(0)']) !!}
 						<p>
 							{!! Form::text('email', '', ['class'=>'form-control', 'placeholder'=>'Email'], [ 'autofocus'=>'autofocus']) !!}
 							<span class="text-danger">{{ $errors->first('email') }}</span>
@@ -43,7 +43,7 @@
 						<p>
 							<strong>
 								{!! Form::label('', '', ['class' => 'checkbox pull-left']) !!}
-								{!! Form::checkbox('remember-me', 'remember-me') !!}
+								{!! Form::checkbox('remember-me', '1') !!}
 								Remember me
 							</strong>
 						</p>

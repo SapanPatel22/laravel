@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use DB;
+use Log;
 
 class Employees extends Authenticatable
 {
@@ -22,19 +23,19 @@ class Employees extends Authenticatable
 	{
 		try {
 			$employee = new Employees;
-			$employee->prefix =Input::get('prefix');
-			$employee->first_name =Input::get('fname');
-			$employee->middle_name =Input::get('mname');
-			$employee->last_name =Input::get('lname');
-			$employee->email =Input::get('email');
-			$password = Input::get('pass'); 
-			$employee->password = Hash::make($password);
+			$employee->prefix = $data['prefix'];
+			$employee->first_name = $data['fname'];
+			$employee->middle_name = $data['mname'];
+			$employee->last_name = $data['lname'];
+			$employee->email = $data['email'];
+			$employee->password = Hash::make($data['pass']);
 			$employee->save();
 
 			return true;
 		}
-		catch (\Illuminate\Database\QueryException $exception) {
-			$errorInfo = $exception->errorInfo;
+		catch (\Exception $exception) {
+			Log::error($exception->getMessage());
+
 			return false;
 		}
 	}
@@ -45,6 +46,7 @@ class Employees extends Authenticatable
 							->select('password')
 							->where('email', $data['email'])
 							->first();
+							
 		if($validate_user != null) {
 			if(Hash::check($data['pass'],  $validate_user->password)) {
 				return true;
@@ -78,18 +80,34 @@ class Employees extends Authenticatable
 	}
 
 	public static function saveUpdateData($data) {
+
+		$image = $data['image'];
+		$input['image'] = time() . $image->getClientOriginalName();
+		$destinationPath = public_path('/images');
+		$path = $destinationPath . '/' . $input['image'];
+		$movedImage = $image->move($destinationPath, $input['image']);
+
 		try {
-			$response = DB::table('employee')
-            ->where('email', $data[0]['email'])
-            ->update(['prefix' => $data[0]['prefix'],'first_name' => $data[0]['fname'],'middle_name' => $data[0]['mname'] ,'last_name' => $data[0]['lname']]);
-            if($response) {
-            	return true;
-            } else {
-            	return false;
-            }
-		}
-		catch (\Illuminate\Database\QueryException $exception) {
-			$errorInfo = $exception->errorInfo;
+			$response = Employees::where('email', $data['email'])
+						->update([
+							'prefix' => $data['prefix'],
+							'first_name' => $data['fname'],
+							'middle_name' => $data['mname'],
+							'last_name' => $data['lname'],
+							'marital_status' => $data['marital-status'],
+							'dob' => $data['dob'],
+							'photo_path' => $path,
+							'fk_company_id' => $data['company_name'],
+							'fk_role_id' => $data['designation_name']
+						]);
+
+			if($response) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (\Exception $exception) {
+			Log::error('Error in saveUpdateData() -> ' . $exception->getMessage());
 			return false;
 		}
 	}

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
 	@yield('title')
 
 	@yield('include_css_file')
@@ -9,8 +9,6 @@
 	<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700">
 	<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
 	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<!-- <link rel="stylesheet" type="text/css" href="dist/css/bootstrap-material-design.css">
-	<link rel="stylesheet" type="text/css" href="dist/css/ripples.min.css"> -->
 
 </head>
 <body>

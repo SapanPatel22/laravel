@@ -10,7 +10,10 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div>
-				<h3>All Users</h3>
+				<h3>Welcome: 
+					<span>{{ $user->first_name}}</span>
+				</h3>
+				<div class="table-responsive">
 				<table class="table table-bordered table-striped">
 					<tr>
 						<th>First Name</th>
@@ -23,8 +26,9 @@
 						<td>{{ $user->middle_name}}</td>
 						<td>{{ $user->last_name}}</td>
 						<td>{{ $user->email}}</td>
-					<tr>
+					</tr>
 				</table>
+				</div>
 			</div>
 		</div>
 	</div>
