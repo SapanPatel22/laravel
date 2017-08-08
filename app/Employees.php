@@ -15,10 +15,13 @@ class Employees extends Authenticatable
 	use Notifiable;
 
 	protected $guarded = array();
-	protected $table = 'employee'; // table name
-	public $timestamps = 'false' ; // to disable default timestamp fields
- 
-	// model function to store form data to database
+	protected $table = 'employee'; 
+	public $timestamps = 'false' ; 
+	
+	public function address() {
+		return $this->hasMany('App\EmpAddress', 'fk_employee_id');
+	}
+	
 	public static function saveFormData($data)
 	{
 		try {
@@ -42,8 +45,7 @@ class Employees extends Authenticatable
 
 	public static function validateUser($data) {
 
-		$validate_user = DB::table('employee')
-							->select('password')
+		$validate_user =Employees::select('password')
 							->where('email', $data['email'])
 							->first();
 							
@@ -55,23 +57,24 @@ class Employees extends Authenticatable
 			}
 		} else {
 			return false;
-		}
-		
+		}	
 	}
 
 	public static function getUser($id) {
-		$user = DB::table('employee')->where('id', $id)->first();
+		$user = Employees::where('id', $id)->first();
 		
 		return $user;
 	}
 
 	public static function getAllUser() {
-		$allUser = DB::table('employee')->get(); 
+		$allUser = Employees::get(); 
+		
 		return $allUser;
 	}
 
 	public static function deleteUser($id) {
-		$userDeleted = DB::table('employee')->where('id', $id)->delete();
+		$userDeleted =Employees::where('id', $id)->delete();
+
 		if($userDeleted) {
 			return true;
 		} else {
@@ -82,10 +85,9 @@ class Employees extends Authenticatable
 	public static function saveUpdateData($data) {
 
 		$image = $data['image'];
-		$input['image'] = time() . $image->getClientOriginalName();
-		$destinationPath = public_path('/images');
-		$path = $destinationPath . '/' . $input['image'];
-		$movedImage = $image->move($destinationPath, $input['image']);
+		$imageName = time() . $image->getClientOriginalName();
+		$destinationPath = public_path('/images/');
+		$movedImage = $image->move($destinationPath, $imageName);
 
 		try {
 			$response = Employees::where('email', $data['email'])
@@ -96,7 +98,7 @@ class Employees extends Authenticatable
 							'last_name' => $data['lname'],
 							'marital_status' => $data['marital-status'],
 							'dob' => $data['dob'],
-							'photo_path' => $path,
+							'photo_path' => $imageName,
 							'fk_company_id' => $data['company_name'],
 							'fk_role_id' => $data['designation_name']
 						]);
