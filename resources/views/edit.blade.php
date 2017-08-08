@@ -18,7 +18,7 @@
 @section('form')
 <div class="container">
 	<div class="row">
-		<div class="col-md-12">
+		<div class="col-xs-12">
 			<section>      
 				<h1 class="entry-title"><span>Edit</span> </h1>
 				<hr>
@@ -41,17 +41,17 @@
 					</div>
 
 					<div class="col-md-2 col-sm-9">
-						{!! Form::text('fname', $getUserDetails->first_name, ['class'=>'form-control', 'placeholder'=>'First Name' , 'autofocus'=>'autofocus']) !!}
+						{!! Form::text('fname', $getUserDetails->first_name, ['class'=>'form-control', 'placeholder'=>'First Name' ]) !!}
 						<span class="text-danger">{{ $errors->first('fname') }}</span>
 					</div>
 
 					<div class="col-md-2 col-sm-9">
-						{!! Form::text('mname', $getUserDetails->middle_name, ['class'=>'form-control', 'placeholder'=>'Middle Name' , 'autofocus'=>'autofocus']) !!}
+						{!! Form::text('mname', $getUserDetails->middle_name, ['class'=>'form-control', 'placeholder'=>'Middle Name']) !!}
 						<span class="text-danger">{{ $errors->first('mname') }}</span>
 					</div>
 
 					<div class="col-md-2 col-sm-9">
-						{!! Form::text('lname', $getUserDetails->last_name, ['class'=>'form-control', 'placeholder'=>'Last Name' , 'autofocus'=>'autofocus' ]) !!}
+						{!! Form::text('lname', $getUserDetails->last_name, ['class'=>'form-control', 'placeholder'=>'Last Name']) !!}
 						<span class="text-danger">{{ $errors->first('lname') }}</span>
 					</div>
 
@@ -62,11 +62,12 @@
 				<div class="col-md-8 col-sm-9">
 					<div class="input-group">
 						<span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-						{!! Form::text('email',$getUserDetails->email, ['class'=>'form-control', 'placeholder'=>'Email',  'autofocus'=>'autofocus', 'readonly']) !!}
+						{!! Form::text('email',$getUserDetails->email, ['class'=>'form-control', 'placeholder'=>'Email', 'readonly']) !!}
 					</div>
 					<span class="text-danger">{{ $errors->first('email') }}</span>
 				</div>
 			</div>
+
 			<div class="form-group">
 				<label class="control-label col-sm-3">Gender 
 					<span class="text-danger">*</span>
@@ -122,30 +123,122 @@
 					{!! Html::decode(Form::label('company_address','Company Address <span class="text-danger">*</span>', ['class' => 'control-label col-sm-3'])) !!}
 					
 
-					<div class="col-md-3 col-sm-9">
-						{!! Form::select('company_country', ['1' => 'India'],null, ['placeholder' => 'Company', 'class' => 'form-control']) !!}
-						<span class="text-danger">{{ $errors->first('company_country') }}</span>
-					</div>
-
-					<div class="col-md-3 col-sm-9">
-						{!! Form::select('company_state', ['1' => 'Odisha'], null, ['placeholder' => 'State', 'class' => 'form-control']) !!}
-						<span class="text-danger">{{ $errors->first('company_state') }}</span>
-					</div>
-
-					<div class="col-md-2 col-sm-9">
-						{!! Form::select('company_city', ['1' => 'Bhubaneswar', '2' => 'Cuttack'],null, ['placeholder' => 'City', 'class' => 'form-control']) !!}
-						<span class="text-danger">{{ $errors->first('company_city') }}</span>
-					</div>
+				<div class="col-md-3 col-sm-9">
+					{!! Form::select('company_country', ['1' => 'India'], 1, ['placeholder' => 'Country', 'class' => 'form-control' ]) !!}
+					<span class="text-danger">{{ $errors->first('company_country') }}</span>
 				</div>
 
+				<div class="col-md-3 col-sm-9">
+					{!! Form::select('company_state', ['1' => 'Odisha'], 1, ['placeholder' => 'State', 'class' => 'form-control']) !!}
+					<span class="text-danger">{{ $errors->first('company_state') }}</span>
+				</div>
+
+				<div class="col-md-2 col-sm-9">
+					{!! Form::select('company_city', ['1' => 'Bhubaneswar', '2' => 'Cuttack'],$getUserAddress[0]["fk_city_id"] ?? '', ['placeholder' => 'City', 'class' => 'form-control']) !!}
+					<span class="text-danger">{{ $errors->first('company_city') }}</span>
+				</div>
+			</div>
+
 			<div class="form-group">
-			  	<label class="control-label col-sm-3">Contact No. <span class="text-danger">*</span></label>
-			 	<div class="col-md-8 col-sm-8">
-					<div class="input-group">
-				  		<span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
-						<input type="text" class="form-control" name="contactnum" id="contactnum" placeholder="Enter your Primary contact no." value="">
+				{!!  Html::decode(Form::label('company_street', 'Street<span class="text-danger">*</span>', ['class' => 'control-label col-sm-3 '])) !!}
+				<div class="col-md-8 col-sm-9">
+					<div class="input-group col-xs-12">
+						{!! Form::text('company_street',$getUserAddress[0]["street"] ?? '', ['class'=>'form-control', 'placeholder'=>'Street']) !!}
 					</div>
-			  	</div>
+					<span class="text-danger">{{ $errors->first('company_street') }}</span>
+				</div>
+			</div>
+
+			<div class="form-group">
+				{!!  Html::decode(Form::label('company_zip', 'Zip<span class="text-danger">*</span>', ['class' => 'control-label col-sm-3 '])) !!}
+				<div class="col-md-8 col-sm-9">
+					<div class="input-group col-xs-12">
+						{!! Form::text('company_zip',$getUserAddress[0]["zip"] ?? '', ['class'=>'form-control', 'placeholder'=>'Zip']) !!}
+					</div>
+					<span class="text-danger">{{ $errors->first('company_zip') }}</span>
+				</div>
+			</div>
+
+			<div class="form-group">
+				{!! Html::decode(Form::label('company_fax', 'Fax<span class="text-danger">*</span>', ['class' => 'control-label col-sm-3 '])) !!}
+				<div class="col-md-8 col-sm-9">
+					<div class="input-group col-xs-12">
+						{!! Form::text('company_fax',$getUserAddress[0]["fax"] ?? '', ['class'=>'form-control', 'placeholder'=>'Fax']) !!}
+					</div>
+					<span class="text-danger">{{ $errors->first('company_fax') }}</span>
+				</div>
+			</div>
+
+			<div class="form-group">
+				{!!  Html::decode(Form::label('company_phone', 'Phone<span class="text-danger">*</span>', ['class' => 'control-label col-sm-3 '])) !!}
+				<div class="col-md-8 col-sm-9">
+					<div class="input-group col-xs-12">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+						{!! Form::text('company_phone', $getUserAddress[0]["phone"] ?? '', ['class'=>'form-control', 'placeholder'=>'Phone']) !!}
+					</div>
+					<span class="text-danger">{{ $errors->first('company_phone') }}</span>
+				</div>
+			</div>
+			
+			<div class="form-group">
+					{!! Html::decode(Form::label('company_address','Home Address <span class="text-danger">*</span>', ['class' => 'control-label col-sm-3'])) !!}
+					
+
+				<div class="col-md-3 col-sm-9">
+					{!! Form::select('home_country', ['1' => 'India'], 1, ['placeholder' => 'Country', 'class' => 'form-control']) !!}
+					<span class="text-danger">{{ $errors->first('home_country') }}</span>
+				</div>
+
+				<div class="col-md-3 col-sm-9">
+					{!! Form::select('home_state', ['1' => 'Odisha'], 1, ['placeholder' => 'State', 'class' => 'form-control']) !!}
+					<span class="text-danger">{{ $errors->first('home_state') }}</span>
+				</div>
+
+				<div class="col-md-2 col-sm-9">
+					{!! Form::select('home_city', ['1' => 'Bhubaneswar', '2' => 'Cuttack'],$getUserAddress[1]["fk_city_id"] ?? '', ['placeholder' => 'City', 'class' => 'form-control']) !!}
+					<span class="text-danger">{{ $errors->first('home_city') }}</span>
+				</div>
+			</div>
+
+			<div class="form-group">
+				{!!  Html::decode(Form::label('home_street', 'Street<span class="text-danger">*</span>', ['class' => 'control-label col-sm-3 '])) !!}
+				<div class="col-md-8 col-sm-9">
+					<div class="input-group col-xs-12">
+						{!! Form::text('home_street', $getUserAddress[1]["street"] ?? '', ['class'=>'form-control', 'placeholder'=>'Street']) !!}
+					</div>
+					<span class="text-danger">{{ $errors->first('home_street') }}</span>
+				</div>
+			</div>
+
+			<div class="form-group">
+				{!!  Html::decode(Form::label('home_zip', 'Zip<span class="text-danger">*</span>', ['class' => 'control-label col-sm-3 '])) !!}
+				<div class="col-md-8 col-sm-9">
+					<div class="input-group col-xs-12">
+						{!! Form::text('home_zip', $getUserAddress[1]["zip"] ?? '', ['class'=>'form-control', 'placeholder'=>'Zip']) !!}
+					</div>
+					<span class="text-danger">{{ $errors->first('home_zip') }}</span>
+				</div>
+			</div>
+
+			<div class="form-group">
+				{!!  Html::decode(Form::label('home_fax', 'Fax<span class="text-danger">*</span>', ['class' => 'control-label col-sm-3 '])) !!}
+				<div class="col-md-8 col-sm-9">
+					<div class="input-group col-xs-12">
+						{!! Form::text('home_fax', $getUserAddress[1]["fax"] ?? '', ['class'=>'form-control', 'placeholder'=>'Fax']) !!}
+					</div>
+					<span class="text-danger">{{ $errors->first('home_fax') }}</span>
+				</div>
+			</div>
+
+			<div class="form-group">
+				{!!  Html::decode(Form::label('home_phone', 'Phone<span class="text-danger">*</span>', ['class' => 'control-label col-sm-3 '])) !!}
+				<div class="col-md-8 col-sm-9">
+					<div class="input-group col-xs-12">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+						{!! Form::text('home_phone', $getUserAddress[1]["phone"] ?? '', ['class'=>'form-control', 'placeholder'=>'Phone']) !!}
+					</div>
+					<span class="text-danger">{{ $errors->first('home_phone') }}</span>
+				</div>
 			</div>
 
 			<div class="form-group">

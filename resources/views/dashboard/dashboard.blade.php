@@ -20,12 +20,14 @@
 						<th>Middle Name</th>
 						<th>Last Name</th>
 						<th>Email Address</th>
+						<th>Image</th>
 					</tr>
 					<tr>
 						<td>{{ $user->first_name}}</td>
 						<td>{{ $user->middle_name}}</td>
 						<td>{{ $user->last_name}}</td>
 						<td>{{ $user->email}}</td>
+						<td>{{ Html::image('/images/'.$user->photo_path, 'alt', ['width' => 70, 'height' => 70 ]) }}</td>
 					</tr>
 				</table>
 				</div>

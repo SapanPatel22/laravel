@@ -14,7 +14,7 @@ class DashboardController extends Controller
 		$id = Auth::user()->id;
 		$user = Employees::getUser($id);
 
-		return view('dashboard.dashboard')->with('route', 'logout')->with('route_name', 'logout')->with('user', $user);
+		return view('dashboard.dashboard')->with('route', 'logout')->with('route_name', 'Logout')->with('user', $user);
 	}
 
 	public function logout() {

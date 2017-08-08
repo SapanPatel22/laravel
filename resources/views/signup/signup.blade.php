@@ -20,7 +20,7 @@
 		<div class="col-sm-6 col-md-12">    
 				<h1 class="entry-title"><span>Sign Up</span> </h1>
 				<hr>
-				{!! Form::open(['action' => 'SignupController@validateRequest', 'files' => true, 'id' => 'myform' ,'class' => 'form-horizontal','onsubmit' => 'return validateForm(1)', 'autocomplete' => 'on']) !!}
+				{!! Form::open(['action' => 'SignupController@validateRequest', 'files' => true, 'id' => 'myform' ,'class' => 'form-horizontal','autocomplete' => 'on']) !!}
 
 				<div class="form-group">
 					{!! Html::decode(Form::label('fname', 'Full Name <span class="text-danger">*</span>', ['class' => 'control-label col-sm-3'])) !!}
@@ -32,16 +32,17 @@
 					</div>
 
 					<div class="col-md-2 col-sm-9">
-						{!! Form::text('fname', '', ['class'=>'form-control', 'placeholder'=>'First Name' , 'autofocus'=>'autofocus']) !!}
+						{!! Form::text('fname', '', ['class'=>'form-control', 'placeholder'=>'First Name']) !!}
 						<span class="text-danger">{{ $errors->first('fname') }}</span>
 					</div>
 
 					<div class="col-md-2 col-sm-9">
-						{!! Form::text('mname', '', ['class'=>'form-control', 'placeholder'=>'Middle Name' , 'autofocus'=>'autofocus']) !!}
+						{!! Form::text('mname', '', ['class'=>'form-control', 'placeholder'=>'Middle Name' ]) !!}
+						<span class="text-danger">{{ $errors->first('mname') }}</span>
 					</div>
 
 					<div class="col-md-2 col-sm-9">
-						{!! Form::text('lname', '', ['class'=>'form-control', 'placeholder'=>'Last Name' , 'autofocus'=>'autofocus']) !!}
+						{!! Form::text('lname', '', ['class'=>'form-control', 'placeholder'=>'Last Name']) !!}
 						<span class="text-danger">{{ $errors->first('lname') }}</span>
 					</div>
 
@@ -52,7 +53,7 @@
 				<div class="col-md-8 col-sm-9">
 					<div class="input-group">
 						<span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-						{!! Form::text('email', '', ['class'=>'form-control', 'placeholder'=>'Email'], [ 'autofocus'=>'autofocus']) !!}
+						{!! Form::text('email', '', ['class'=>'form-control', 'placeholder'=>'Email']) !!}
 					</div>
 					<span class="text-danger">{{ $errors->first('email') }}</span>
 				</div>
@@ -63,9 +64,9 @@
 				<div class="col-md-5 col-sm-8">
 					<div class="input-group">
 						<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-						{!! Form::password('pass', ['class' => 'form-control', 'placeholder' => 'Password must be between 5-15 characters']) !!}
-				    </div>
-				    <span class="text-danger">{{ $errors->first('pass') }}</span>
+						{!! Form::password('pass', ['class' => 'form-control', 'placeholder' => 'Password must be between 8-12 characters']) !!}
+					</div>
+					<span class="text-danger">{{ $errors->first('pass') }}</span>
 				</div>
 			</div>
 
@@ -83,28 +84,26 @@
 
 @section('modal')
  <div class="sidebar-collapse" style="" id="sidebar-collapse">
-     <a href="#" id="show" class="sidebar-collapse-icon with-animation" style="visibility: hidden">
-         Click               
-         <i class="entypo-menu"></i>
-     </a>
+	 <a href="#" id="show" class="sidebar-collapse-icon with-animation" style="visibility: hidden">
+		 Click               
+		 <i class="entypo-menu"></i>
+	 </a>
  </div>
 
  <div id="success-login" class="modal fade" role="dialog">
   <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Modal Header</h4>
-      </div>
-      <div class="modal-body">
-        <p>You have successfully created an account</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default">
-        <a href="{{ route('login_form') }}">Login</a></button>
-      </div>
-    </div>
+	<div class="modal-content">
+	  <div class="modal-header">
+		<h4 class="modal-title">Modal Header</h4>
+	  </div>
+	  <div class="modal-body">
+		<p>You have successfully created an account</p>
+	  </div>
+	  <div class="modal-footer">
+		<button type="button" class="btn btn-default">
+		<a href="{{ route('login_form') }}">Login</a></button>
+	  </div>
+	</div>
 
   </div>
 </div>
