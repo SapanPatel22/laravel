@@ -21,9 +21,14 @@ class Employees extends Authenticatable
 	public function address() {
 		return $this->hasMany('App\EmpAddress', 'fk_employee_id');
 	}
-	
-	public static function saveFormData($data)
-	{
+
+	public function roles() {
+		return $this->hasOne('App\Role', 'fk_roles_id', 'id')->withDefault([
+        			'fk_role_id' => '1',
+    		]);
+	}
+
+	public static function saveFormData($data) {
 		try {
 			$employee = new Employees;
 			$employee->prefix = $data['prefix'];
@@ -49,7 +54,7 @@ class Employees extends Authenticatable
 							->where('email', $data['email'])
 							->first();
 							
-		if($validate_user != null) {
+		if ($validate_user != null) {
 			if(Hash::check($data['pass'],  $validate_user->password)) {
 				return true;
 			} else {
@@ -75,7 +80,7 @@ class Employees extends Authenticatable
 	public static function deleteUser($id) {
 		$userDeleted =Employees::where('id', $id)->delete();
 
-		if($userDeleted) {
+		if ($userDeleted) {
 			return true;
 		} else {
 			return false;
@@ -103,14 +108,41 @@ class Employees extends Authenticatable
 							'fk_role_id' => $data['designation_name']
 						]);
 
-			if($response) {
+			if ($response) {
 				return true;
 			} else {
 				return false;
 			}
 		} catch (\Exception $exception) {
 			Log::error('Error in saveUpdateData() -> ' . $exception->getMessage());
+
 			return false;
 		}
+	}
+
+	public function hasAnyAdminstrativeRole($roles) {
+
+		if (is_array($roles)) {
+			foreach ($roles as $role) {
+				if ($this->hasRole($role)) {
+					return true;
+				}
+			}
+		} else {
+			if ($this->hasRole($role)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public function hasRole($role) {
+		
+		if ($this->administrativeRole()->where('name', $role)) {
+			return true;
+		}
+
+		return false;
 	}
 }
