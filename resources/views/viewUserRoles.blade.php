@@ -6,15 +6,20 @@
 
 @section('usersProfile')
 <a class="navbar-brand" href="{{ route('dashboard') }}">Dashboard</a>
+
+@if ($user->fk_roles_id != 1)
 <a class="navbar-brand" href="{{ route('users_profile') }}">Users</a>
+@endif
+
 <a class="navbar-brand" href="{{ route('view_user_role') }}">Role</a>
 
-	@if ($user->fk_roles_id == 4)
-		<a class="navbar-brand" href="{{ route('create_user') }}">Create</a>
-	@endif
-	@if ($user->fk_roles_id >= 3)
-		<a class="navbar-brand" href="{{ route('cms_page') }}">Create pages</a>
-	@endif
+@if ($user->fk_roles_id == 4)
+	<a class="navbar-brand" href="{{ route('create_user') }}">Create</a>
+@endif
+@if ($user->fk_roles_id >= 3)
+	<a class="navbar-brand" href="{{ route('cms_page') }}">Create pages</a>
+@endif
+
 <a class="navbar-brand" href="{{ route('view_page_list') }}">View Pages</a>
 @endsection
 
@@ -39,7 +44,10 @@
 							<th>Middle Name</th>
 							<th>Last Name</th>
 							<th>Email Address</th>
+							<th>Role</th>
+							@if ($user->fk_roles_id != 1)
 							<th>Edit</th>
+							@endif
 							@if ($user->fk_roles_id == 3)
 							<th>Delete</th>
 							@endif
@@ -51,13 +59,27 @@
 							<th>{{ $users->middle_name }}</th>
 							<th>{{ $users->last_name }}</th>
 							<th>{{ $users->email }}</th>
+							@if($users->fk_roles_id == 3)
+							<th>ITAdmin</th>
+							@elseif($users->fk_roles_id == 2)
+							<th>Trainner</th>
+							@elseif($users->fk_roles_id == 4)
+							<th>Super Admin</th>
+							@else
+							<th>Accountant</th>
+							@endif
+							@if ($user->fk_roles_id != 1)
 							<th>
 								<button type="button" class="btn btn-info" data-dismiss="modal">
-									<a href="{{ route('edit_user', ['user_id' => $users->id]) }}">Edit</a>
+									<a href="{{ route('edit_user_role', ['user_id' => $users->id]) }}">Edit</a>
 								</button>
 							</th>
+							@endif
+
 							@if ($user->fk_roles_id == 3)
-							<th>{{ Form::button('Delete', array('class' => 'btn btn-danger', 'data-toggle' => 'modal', 'data-target' => '#confirm-del'.$user->id)) }}</th>
+							<th>
+								{{ Form::button('Delete', array('class' => 'btn btn-danger', 'data-toggle' => 'modal', 'data-target' => '#confirm-del'.$user->id)) }}
+							</th>
 							@endif
 						</tr>
 						@endforeach

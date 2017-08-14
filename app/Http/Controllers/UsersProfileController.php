@@ -5,39 +5,45 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Employees;
 use App\EmpAddress;
-
+use Auth;
 class UsersProfileController extends Controller {
 	
 	public static function index() {
 
+		$id = Auth::user()->id;
+		$user = Employees::getUser($id);
+
 		$allUser = Employees::getAllUser();
 
-		return view('dashboard.users_profile')->with('route', 'logout')->with('route_name', 'Logout')->with('allUser', $allUser);
+		return view('dashboard.users_profile')->with('route', 'logout')->with('route_name', 'Logout')->with('allUser', $allUser)->with('user' ,$user);
 	}
 
 	public static function delete(Request $request) {
-
+		
 		$deleteUser = Employees::deleteUser($request->user_id);
 
 		if($deleteUser) {
 			 $request->session()->flash('alert-success', 'User was successful deleted!');
 			return redirect()->route("users_profile");
 		} else {
-			$request->session()->flash('alert-danger', 'something goes wrong');
+			$request->session()->flash('alert-danger', 'Something went wrong');
 			return redirect()->route("users_profile");
 		}
 	}
 
 	public static function edit(Request $request) {
 
+		$id = Auth::user()->id;
+		$user = Employees::getUser($id);
+		
 		$getUserDetails = Employees::getUser($request->user_id);
 		$getUserAddress = $getUserDetails->address;
 		
 		if ($getUserDetails == true && $getUserAddress == true) {
-			return view('edit')->with('route', route('logout'))->with('route_name', 'Logout')->with('getUserDetails',$getUserDetails)->with('getUserAddress' , $getUserAddress);
+			return view('edit')->with('route', route('logout'))->with('route_name', 'Logout')->with('getUserDetails',$getUserDetails)->with('getUserAddress' , $getUserAddress)->with('user' ,$user);
 		}
 		else if ($getUserDetails) {
-			return view('edit')->with('route', route('logout'))->with('route_name', 'Logout')->with('getUserDetails',$getUserDetails)->with('getUserAddress' , null);
+			return view('edit')->with('route', route('logout'))->with('route_name', 'Logout')->with('getUserDetails',$getUserDetails)->with('getUserAddress' , null)->with('user' ,$user);
 		} else {
 			return redirect()->route("users_profile");
 		}

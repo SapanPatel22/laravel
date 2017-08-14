@@ -11,8 +11,19 @@
 @endsection
 
 @section('usersProfile')
- <a class="navbar-brand" href="{{ route('dashboard') }}">Dashboard</a>
- <a class="navbar-brand" href="{{ route('users_profile') }}">Users profile</a>
+
+<a class="navbar-brand" href="{{ route('dashboard') }}">Dashboard</a>
+<a class="navbar-brand" href="{{ route('users_profile') }}">Users</a>
+@if ($user->fk_roles_id != 1)
+<a class="navbar-brand" href="{{ route('view_user_role') }}">Role</a>
+@endif
+@if($user->fk_roles_id == 4)
+<a class="navbar-brand" href="{{ route('create_user') }}">Create</a>
+@endif
+@if($user->fk_roles_id >= 3)
+<a class="navbar-brand" href="{{ route('cms_page') }}">Create pages</a>
+@endif
+<a class="navbar-brand" href="{{ route('view_page_list') }}">View Pages</a>
 @endsection
 
 @section('form')
@@ -22,13 +33,15 @@
 			<section>      
 				<h1 class="entry-title"><span>Edit</span> </h1>
 				<hr>
+
 				<div class="flash-message">
 				@foreach (['danger', 'warning', 'success', 'info'] as $msg)
 					@if(Session::has('alert-' . $msg))
-						<p class="alert alert-{{ $msg }}">{{ Session::get('alert-' . $msg) }} <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></p>
+						<p class="alert alert-{{ $msg }}">{{ Session::get('alert-' . $msg) }} <a href="" class="close" data-dismiss="alert" aria-label="close">&times;</a></p>
 					@endif
 				@endforeach
 				</div>
+				
 				{!! Form::open(['action' => 'UsersProfileController@validateEditRequest', 'files' => true, 'id' => 'myform' ,'class' => 'form-horizontal', 'autocomplete' => 'off']) !!}
 
 				<div class="form-group">

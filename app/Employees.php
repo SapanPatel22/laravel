@@ -22,10 +22,34 @@ class Employees extends Authenticatable
 		return $this->hasMany('App\EmpAddress', 'fk_employee_id');
 	}
 
-	public function roles() {
+	public function hasRoles() {
 		return $this->hasOne('App\Role', 'fk_roles_id', 'id')->withDefault([
-        			'fk_role_id' => '1',
-    		]);
+					'fk_roles_id' => '1',
+			]);
+	}
+
+	public function isAdmin() {
+		if ($this->fk_roles_id == 2) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public function isItAdmin() {
+		if($this->fk_roles_id == 3) {
+			return true;
+		}
+
+		else false;
+	}
+
+	public function isSuperAdmin() {
+		if($this->fk_roles_id == 4) {
+			return true;
+		}
+
+		return false;
 	}
 
 	public static function saveFormData($data) {
@@ -37,6 +61,11 @@ class Employees extends Authenticatable
 			$employee->last_name = $data['lname'];
 			$employee->email = $data['email'];
 			$employee->password = Hash::make($data['pass']);
+
+			if(isset($data['roles'])) {
+				$employee->fk_roles_id = $data['roles'];
+			}
+
 			$employee->save();
 
 			return true;
@@ -144,5 +173,28 @@ class Employees extends Authenticatable
 		}
 
 		return false;
+	}
+
+	public static function saveUpdateRole($data) {
+		try {
+			$response = Employees::where('email', $data['email'])
+						->update([
+							'prefix' => $data['prefix'],
+							'first_name' => $data['fname'],
+							'middle_name' => $data['mname'],
+							'last_name' => $data['lname'],
+							'fk_roles_id' => $data['roles']
+						]);
+
+			if ($response) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (\Exception $exception) {
+			Log::error('Error in saveUpdateData() -> ' . $exception->getMessage());
+
+			return false;
+		}
 	}
 }
